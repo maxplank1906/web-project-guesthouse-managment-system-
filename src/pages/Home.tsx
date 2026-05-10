@@ -64,7 +64,7 @@ export default function Home() {
       <section className="relative h-[85vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <LazyImage 
-            src="/assets/hero.png" 
+            src="/images/hero.png" 
             alt="Family Palace Guest House Premium Living"
             className="w-full h-full"
             referrerPolicy="no-referrer"

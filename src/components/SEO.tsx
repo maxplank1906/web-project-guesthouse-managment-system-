@@ -12,7 +12,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ 
   title = "Family Palace Guest House | Islamabad G-13", 
   description = "Experience premium family accommodation in Islamabad G-13/1. Luxury rooms, safe environment, and direct WhatsApp booking available.",
-  image = "/assets/hero.png",
+  image = "/images/hero.png",
   url = "https://family-palace-guest-house.vercel.app",
   type = "website"
 }) => {
@@ -45,7 +45,7 @@ const SEO: React.FC<SEOProps> = ({
           "@type": "Hotel",
           "name": "Family Palace Guest House",
           "description": description,
-          "image": "https://family-palace-guest-house.vercel.app/assets/hero.png",
+          "image": "https://family-palace-guest-house.vercel.app/images/hero.png",
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "G-13/1",
