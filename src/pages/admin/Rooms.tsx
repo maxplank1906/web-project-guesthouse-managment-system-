@@ -17,6 +17,7 @@ import {
 import { toast } from 'react-hot-toast';
 import { handleFirestoreError, OperationType } from '../../utils/error-handler';
 import { ROOMS as DEFAULT_ROOMS } from '../../constants';
+import LazyImage from '../../components/LazyImage';
 
 export default function RoomsManagement() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -80,7 +81,7 @@ export default function RoomsManagement() {
             className="bg-white rounded-[40px] overflow-hidden shadow-sm border border-gray-100 flex flex-col group hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500"
           >
             <div className="h-48 relative overflow-hidden">
-              <img src={room.image} alt={room.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <LazyImage src={room.image} alt={room.name} className="w-full h-full transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
                 <div className="flex justify-between items-end w-full">
                   <div>

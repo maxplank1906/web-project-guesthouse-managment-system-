@@ -1,10 +1,16 @@
 import { BRANCHES, WHATSAPP_LINK } from '../constants';
 import { motion } from 'motion/react';
-import { MapPin, Phone, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, MessageSquare } from 'lucide-react';
+import LazyImage from '../components/LazyImage';
+import SEO from '../components/SEO';
 
 export default function Branches() {
   return (
     <div className="pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <SEO 
+        title="Our Branches | Family Palace Guest House"
+        description="Visit our premium guest house branches in Islamabad G-13. Safe, secure, and comfortable accommodation for families and business travelers."
+      />
       <div className="space-y-4 md:space-y-6 mb-12 md:mb-20 text-center">
         <p className="label-caps">Our Locations</p>
         <h1 className="text-4xl md:text-8xl font-serif tracking-tighter">Islamabad Branches.</h1>
@@ -23,10 +29,10 @@ export default function Branches() {
             className="luxury-card rounded-[40px] overflow-hidden flex flex-col md:flex-row h-full group"
           >
             <div className="md:w-2/5 h-64 md:h-auto relative overflow-hidden">
-              <img 
+              <LazyImage 
                 src={branch.image} 
                 alt={branch.name} 
-                className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                className="h-full w-full group-hover:scale-110 transition-transform duration-1000"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-brand-primary/10" />
@@ -72,10 +78,10 @@ export default function Branches() {
 
       {/* Expansion Section */}
       <div className="mt-32 relative h-[400px] rounded-[60px] overflow-hidden bg-brand-primary flex items-center justify-center text-center p-8">
-        <img 
+        <LazyImage 
           src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1920" 
           alt="World Map" 
-          className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay"
+          className="absolute inset-0 w-full h-full opacity-10 mix-blend-overlay"
           referrerPolicy="no-referrer"
         />
         <div className="relative z-10 space-y-6 max-w-2xl">

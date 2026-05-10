@@ -2,6 +2,7 @@ import { AMENITIES } from '../constants';
 import * as LucideIcons from 'lucide-react';
 import { motion } from 'motion/react';
 import SEO from '../components/SEO';
+import LazyImage from '../components/LazyImage';
 
 export default function Services() {
   return (
@@ -48,7 +49,7 @@ export default function Services() {
         {/* Feature Section */}
         <div className="mt-40 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="relative">
-            <img 
+            <LazyImage 
               src="https://images.unsplash.com/photo-1551882547-ff43c63faf76?auto=format&fit=crop&q=80&w=800"
               alt="Service Staff"
               className="rounded-[60px] shadow-2xl relative z-10"
