@@ -29,8 +29,9 @@ const Services = lazy(() => import('./pages/Services'));
 const Branches = lazy(() => import('./pages/Branches'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Login = lazy(() => import('./pages/Login'));
-const Signup = lazy(() => import('./pages/Signup'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const Terms = lazy(() => import('./pages/Terms'));
 
 // User
 const MyBookings = lazy(() => import('./pages/MyBookings'));
@@ -64,8 +65,9 @@ const AppRoutes = () => {
           <Route path="/branches" element={<Branches />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={isAdmin ? <Navigate to="/admin" replace /> : <Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
           
           {/* Protected User Routes */}
           <Route 
@@ -100,7 +102,18 @@ export default function App() {
     <AuthProvider>
       <Router>
         <ScrollToTop />
-        <Toaster position="top-center" reverseOrder={false} />
+        <Toaster 
+          position="top-center" 
+          reverseOrder={false}
+          toastOptions={{
+            duration: 2000,
+            style: {
+              borderRadius: '16px',
+              background: '#333',
+              color: '#fff',
+            },
+          }}
+        />
         <AppRoutes />
       </Router>
     </AuthProvider>

@@ -76,7 +76,7 @@ export default function Navbar() {
               </span>
               <button 
                 onClick={logout}
-                className="text-stone-500 hover:text-red-500 transition-colors"
+                className="text-stone-500 hover:text-red-500 transition-colors cursor-pointer"
                 title="Logout"
               >
                 <LogOut size={18} />
@@ -85,7 +85,7 @@ export default function Navbar() {
           ) : (
             <Link 
               to="/login"
-              className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 hover:text-brand-primary"
+              className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 hover:text-brand-primary cursor-pointer"
             >
               Login
             </Link>
@@ -93,9 +93,9 @@ export default function Navbar() {
 
           <Link 
             to="/rooms"
-            className="btn-primary"
+            className="btn-primary cursor-pointer"
           >
-            Book Now
+            Explore & Book
           </Link>
         </div>
 
@@ -140,7 +140,7 @@ export default function Navbar() {
                   </div>
                   <button 
                     onClick={logout}
-                    className="flex items-center gap-3 text-red-500 font-bold py-2"
+                    className="flex items-center gap-3 text-red-500 font-bold py-2 cursor-pointer"
                   >
                     <LogOut size={20} />
                     SIGN OUT
@@ -149,15 +149,15 @@ export default function Navbar() {
               ) : (
                 <Link 
                   to="/login"
-                  className="text-xl font-serif font-bold uppercase tracking-tight py-2 text-brand-primary"
+                  className="text-xl font-serif font-bold uppercase tracking-tight py-2 text-brand-primary cursor-pointer"
                 >
-                  LOGIN / SIGNUP
+                  LOGIN
                 </Link>
               )}
 
               <Link 
                 to="/rooms"
-                className="btn-primary w-full py-5 text-sm mt-4"
+                className="btn-primary w-full py-5 text-sm mt-4 cursor-pointer"
               >
                 Book Your Stay
               </Link>

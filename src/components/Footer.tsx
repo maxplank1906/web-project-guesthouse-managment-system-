@@ -31,8 +31,8 @@ export default function Footer() {
           <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
             <li>About Us</li>
             <li>Private Bookings</li>
-            <li>Privacy Policy</li>
-            <li>Terms</li>
+            <li><Link to="/privacy" className="hover:text-brand-primary transition-colors">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-brand-primary transition-colors">Terms</Link></li>
           </ul>
         </div>
 

@@ -32,32 +32,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const docRef = doc(db, 'users', firebaseUser.uid);
           const docSnap = await getDoc(docRef);
           
-            const isAdminEmail = firebaseUser.email === 'abdulmoiz1914@gmail.com' || firebaseUser.email === 'i230722@isb.nu.edu.pk';
+          const isAdminEmail = firebaseUser.email === 'abdulmoiz1914@gmail.com' || 
+                             firebaseUser.email === 'i230722@isb.nu.edu.pk';
+          
+          if (docSnap.exists()) {
+            const data = docSnap.data() as UserProfile;
+            console.log("Current user profile:", data);
             
-            if (docSnap.exists()) {
-              const data = docSnap.data() as UserProfile;
-              // Force admin role if it's the primary developer email
-              if (isAdminEmail && data.role !== 'admin') {
-                await setDoc(docRef, { ...data, role: 'admin' }, { merge: true });
-                setProfile({ ...data, role: 'admin' });
-              } else {
-                setProfile(data);
-              }
+            // Force admin role if it's the primary developer email
+            if (isAdminEmail && data.role !== 'admin') {
+              console.log("Elevating user to admin...");
+              await setDoc(docRef, { ...data, role: 'admin' }, { merge: true });
+              setProfile({ ...data, role: 'admin' });
             } else {
-              // New user registration via Google or email
-              const newProfile: UserProfile = {
-                uid: firebaseUser.uid,
-                name: firebaseUser.displayName || 'Guest',
-                email: firebaseUser.email || '',
-                role: isAdminEmail ? 'admin' : 'user',
-                status: 'active',
-                createdAt: serverTimestamp(),
-              };
-            await setDoc(docRef, newProfile);
-            setProfile(newProfile);
+              setProfile(data);
+            }
+          } else {
+            console.log("Creating new user profile for:", firebaseUser.email);
+            // New user registration via Google or email
+            const newProfile: UserProfile = {
+              uid: firebaseUser.uid,
+              name: firebaseUser.displayName || 'Guest',
+              email: firebaseUser.email || '',
+              role: isAdminEmail ? 'admin' : 'user',
+              status: 'active',
+              createdAt: serverTimestamp(),
+            };
+            try {
+              await setDoc(docRef, newProfile);
+              console.log("Profile created successfully");
+              setProfile(newProfile);
+            } catch (err) {
+              console.error("Failed to create profile document:", err);
+              // Fallback to local profile state so app works even if DB sync fails
+              setProfile(newProfile);
+            }
           }
         } catch (error) {
-          handleFirestoreError(error, OperationType.GET, `users/${firebaseUser.uid}`);
+          console.error("Auth context refresh error:", error);
         }
       } else {
         setProfile(null);
