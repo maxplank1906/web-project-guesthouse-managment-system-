@@ -5,6 +5,7 @@ import { X, ZoomIn } from 'lucide-react';
 import { db } from '../firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 import SEO from '../components/SEO';
+import LazyImage from '../components/LazyImage';
 
 export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -64,10 +65,10 @@ export default function Gallery() {
             onClick={() => setSelectedImage(img)}
             className="relative group cursor-pointer overflow-hidden rounded-3xl"
           >
-            <img 
+            <LazyImage 
               src={img} 
               alt={`Gallery image ${idx}`} 
-              className="w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-full transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-brand-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
