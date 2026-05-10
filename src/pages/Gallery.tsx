@@ -11,7 +11,7 @@ import { optimizeImagePath } from '../lib/utils';
 
 export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>(DEFAULT_GALLERY);
 
   const optimizedSelectedImage = optimizeImagePath(selectedImage);
 

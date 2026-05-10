@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Star, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { AMENITIES, TESTIMONIALS, WHATSAPP_LINK } from '../constants';
+import { AMENITIES, TESTIMONIALS, WHATSAPP_LINK, ROOMS } from '../constants';
 import * as LucideIcons from 'lucide-react';
 import { db } from '../firebase/config';
 import { collection, onSnapshot, limit, query } from 'firebase/firestore';
@@ -11,8 +11,8 @@ import SEO from '../components/SEO';
 import LazyImage from '../components/LazyImage';
 
 export default function Home() {
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [rooms, setRooms] = useState<Room[]>(ROOMS.slice(0, 3));
+  const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const total = TESTIMONIALS.length;
