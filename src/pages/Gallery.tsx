@@ -7,9 +7,13 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import SEO from '../components/SEO';
 import LazyImage from '../components/LazyImage';
 
+import { optimizeImagePath } from '../lib/utils';
+
 export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [images, setImages] = useState<string[]>([]);
+
+  const optimizedSelectedImage = optimizeImagePath(selectedImage);
 
   useEffect(() => {
     const docRef = doc(db, 'siteConfig', 'gallery');
@@ -19,6 +23,9 @@ export default function Gallery() {
       } else {
         setImages(DEFAULT_GALLERY);
       }
+    }, (error) => {
+      console.error("Gallery Error:", error);
+      setImages(DEFAULT_GALLERY);
     });
 
     return () => unsubscribe();
@@ -68,7 +75,7 @@ export default function Gallery() {
             <LazyImage 
               src={img} 
               alt={`Gallery image ${idx}`} 
-              className="w-full h-full transition-transform duration-700 group-hover:scale-110"
+              className="w-full transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-brand-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -99,7 +106,7 @@ export default function Gallery() {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
-              src={selectedImage} 
+              src={optimizedSelectedImage} 
               alt="Full size view" 
               className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
               referrerPolicy="no-referrer"

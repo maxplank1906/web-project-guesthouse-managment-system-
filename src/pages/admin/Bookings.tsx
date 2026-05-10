@@ -45,7 +45,7 @@ export default function Bookings() {
     return () => unsubscribe();
   }, []);
 
-  const handleUpdateStatus = async (bookingId: string, status: 'accepted' | 'rejected') => {
+  const handleUpdateStatus = async (bookingId: string, status: 'accepted' | 'rejected' | 'pending') => {
     try {
       await updateDoc(doc(db, 'bookings', bookingId), { status });
       toast.success(`Booking ${status}`);

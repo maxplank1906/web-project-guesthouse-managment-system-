@@ -27,6 +27,9 @@ export default function Home() {
       })) as Room[];
       setRooms(roomData);
       setLoading(false);
+    }, (error) => {
+      console.error("Home Rooms Error:", error);
+      setLoading(false);
     });
 
     if (isPaused) return () => unsubscribe();
@@ -64,7 +67,7 @@ export default function Home() {
       <section className="relative h-[85vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <LazyImage 
-            src="/images/hero.png" 
+            src="/hero.webp" 
             alt="Family Palace Guest House Premium Living"
             className="w-full h-full"
             referrerPolicy="no-referrer"

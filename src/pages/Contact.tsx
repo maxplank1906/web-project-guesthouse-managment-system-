@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, MessageSquare, Send } from 'lucide-react';
-import { WHATSAPP_BASE_URL } from '../constants';
+import { WHATSAPP_LINK, WHATSAPP_BASE_URL } from '../constants';
 import { useState, FormEvent } from 'react';
 import SEO from '../components/SEO';
 

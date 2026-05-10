@@ -112,5 +112,13 @@ service cloud.firestore {
       allow read: if true; // Publicly available for browsing
       allow write: if isAdmin();
     }
+
+    // -------------------------------------------------------------------------
+    // SITE CONFIG COLLECTION
+    // -------------------------------------------------------------------------
+    match /siteConfig/{configId} {
+      allow read: if true; // Public configuration like gallery
+      allow write: if isAdmin();
+    }
   }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { optimizeImagePath } from '../lib/utils';
 
 interface LazyImageProps {
   src: string;
@@ -10,6 +11,7 @@ interface LazyImageProps {
 
 const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className, referrerPolicy }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const optimizedSrc = optimizeImagePath(src);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -23,7 +25,7 @@ const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className, referrerPoli
         )}
       </AnimatePresence>
       <motion.img
-        src={src}
+        src={optimizedSrc}
         alt={alt}
         loading="lazy"
         referrerPolicy={referrerPolicy}
@@ -34,7 +36,7 @@ const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className, referrerPoli
         }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         onLoad={() => setIsLoaded(true)}
-        className="w-full h-full object-cover"
+        className={`w-full ${className?.includes('h-full') ? 'h-full' : 'h-auto'} object-cover`}
       />
     </div>
   );

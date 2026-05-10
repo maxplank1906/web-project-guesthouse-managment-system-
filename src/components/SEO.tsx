@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { optimizeImagePath } from '../lib/utils';
 
 interface SEOProps {
   title?: string;
@@ -12,11 +13,15 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ 
   title = "Family Palace Guest House | Islamabad G-13", 
   description = "Experience premium family accommodation in Islamabad G-13/1. Luxury rooms, safe environment, and direct WhatsApp booking available.",
-  image = "/images/hero.png",
+  image = "/hero.webp",
   url = "https://family-palace-guest-house.vercel.app",
   type = "website"
 }) => {
   const siteTitle = title.includes("Family Palace") ? title : `${title} | Family Palace Guest House`;
+  const optimizedImage = optimizeImagePath(image);
+  const fullImageUrl = optimizedImage.startsWith('http') 
+    ? optimizedImage 
+    : `https://family-palace-guest-house.vercel.app${optimizedImage}`;
 
   return (
     <Helmet>
@@ -29,14 +34,14 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:type" content={type} />
       <meta property="og:title" content={siteTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={fullImageUrl} />
       <meta property="og:url" content={url} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={siteTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={fullImageUrl} />
 
       {/* Structured Data */}
       <script type="application/ld+json">
@@ -45,7 +50,7 @@ const SEO: React.FC<SEOProps> = ({
           "@type": "Hotel",
           "name": "Family Palace Guest House",
           "description": description,
-          "image": "https://family-palace-guest-house.vercel.app/images/hero.png",
+          "image": "https://family-palace-guest-house.vercel.app/hero.webp",
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "G-13/1",
