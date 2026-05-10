@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information with status and role",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Room booking record with status tracking",
+      "type": "object",
+      "properties": {
+        "bookingId": { "type": "string" },
+        "userId": { "type": "string" },
+        "guestName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "roomType": { "type": "string" },
+        "guests": { "type": "number" },
+        "checkIn": { "type": "string" },
+        "checkOut": { "type": "string" },
+        "specialRequest": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["bookingId", "userId", "guestName", "email", "phone", "roomType", "guests", "checkIn", "checkOut", "status", "createdAt"]
+    },
+    "Room": {
+      "title": "Room",
+      "description": "Property unit details including availability and status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "booked", "maintenance"] },
+        "isAvailable": { "type": "boolean" },
+        "capacity": { "type": "number" }
+      },
+      "required": ["id", "name", "price", "image", "status", "isAvailable"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Registered user profiles"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Room reservations"
+    },
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Property unit data and rates"
+    }
+  }
+}

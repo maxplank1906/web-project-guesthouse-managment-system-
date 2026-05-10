@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  --color-brand-primary: #1E293B; /* Modern Slate Navy */
+  --color-brand-accent: #334155; /* Lighter Slate for hover states */
+  --color-brand-gold: #94702D; /* Classic gold for luxury highlights */
+  --color-brand-bg: #F8FAFC; /* Clean Slate White */
+  --color-brand-muted: #64748B;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-primary font-sans antialiased;
+  }
+}
+
+.glass-nav {
+  @apply bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm;
+}
+
+.luxury-card {
+  @apply bg-white border border-slate-200 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.15)] hover:-translate-y-1 transition-all duration-500;
+}
+
+.serif-heading {
+  @apply font-serif;
+}
+
+.btn-primary {
+  @apply bg-brand-primary text-white px-8 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-brand-accent transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 hover:-translate-y-0.5;
+}
+
+.label-caps {
+  @apply text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold;
+}
