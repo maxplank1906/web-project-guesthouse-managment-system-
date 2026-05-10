@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { Room } from '../types';
-import { X, Calendar, Users, Phone, User, FileText, Send } from 'lucide-react';
+import { X, Calendar, Users, Phone, User, FileText, Send, CheckCircle2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { handleFirestoreError, OperationType } from '../utils/error-handler';
 
@@ -35,6 +35,7 @@ interface BookingModalProps {
 export default function BookingModal({ room, isOpen, onClose }: BookingModalProps) {
   const { user, profile } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<BookingForm>({
     resolver: zodResolver(bookingSchema),
@@ -63,14 +64,56 @@ export default function BookingModal({ room, isOpen, onClose }: BookingModalProp
       };
 
       await addDoc(collection(db, 'bookings'), bookingData);
+      setIsSuccess(true);
       toast.success('Booking request submitted! We will contact you shortly.');
-      onClose();
-    } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'bookings');
+      setTimeout(() => {
+        onClose();
+        setIsSuccess(false);
+      }, 3000);
+    } catch (error: any) {
+      console.error("Booking Error:", error);
+      toast.error('Failed to submit booking. Please check your data and try again.');
+      // Don't re-throw here to keep the UI stable, just log for debugging if needed
     } finally {
       setLoading(false);
     }
   };
+
+  if (isSuccess) {
+    return (
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-white p-12 rounded-[40px] text-center relative z-10 shadow-2xl max-w-lg w-full"
+            >
+              <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 size={48} />
+              </div>
+              <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">Request Received!</h2>
+              <p className="text-gray-500 mb-8">
+                Thank you for choosing Family Palace. Your booking request has been sent to our management team. We will contact you shortly via email or phone to confirm.
+              </p>
+              <button 
+                onClick={onClose}
+                className="w-full bg-brand-primary text-white py-4 rounded-2xl font-bold uppercase tracking-widest hover:bg-brand-accent transition-all"
+              >
+                Back to Exploration
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>

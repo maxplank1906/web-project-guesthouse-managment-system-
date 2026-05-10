@@ -48,13 +48,19 @@ service cloud.firestore {
     // -------------------------------------------------------------------------
     match /users/{userId} {
       function isValidUser(data) {
-        return data.keys().hasAll(['uid', 'name', 'email', 'role', 'createdAt']) &&
-               data.keys().size() == 5 &&
+        // Support creating with or without status initially, but usually 6 keys now
+        return data.keys().hasAll(['uid', 'name', 'email', 'role', 'status', 'createdAt']) &&
+               data.keys().size() == 6 &&
                data.uid is string && data.uid.size() <= 128 &&
                data.name is string && data.name.size() <= 100 &&
                data.email is string && data.email.size() <= 100 &&
                data.role in ['admin', 'user'] &&
+               data.status in ['active', 'inactive'] &&
                data.createdAt is timestamp;
+      }
+
+      function isAuthAdmin() {
+        return request.auth.token.email in ['abdulmoiz1914@gmail.com', 'i230722@isb.nu.edu.pk'];
       }
 
       // Users can read and write their own profile during creation.
@@ -62,7 +68,10 @@ service cloud.firestore {
       allow get: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
       
-      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().role == 'user';
+      allow create: if isOwner(userId) && isValidUser(incoming()) && (
+        (incoming().role == 'user') || 
+        (incoming().role == 'admin' && isAuthAdmin())
+      );
       
       allow update: if isAdmin() || (
         isOwner(userId) && 
@@ -80,13 +89,16 @@ service cloud.firestore {
     // -------------------------------------------------------------------------
     match /bookings/{bookingId} {
       function isValidBooking(data) {
+        // bookingData includes roomType, userId, bookingId, status, createdAt + 6 schema fields + optional specialRequest
         return data.keys().hasAll(['bookingId', 'userId', 'guestName', 'email', 'phone', 'roomType', 'guests', 'checkIn', 'checkOut', 'status', 'createdAt']) &&
-               data.bookingId is string &&
+               (data.keys().size() == 11 || (data.keys().size() == 12 && data.specialRequest is string)) &&
+               data.bookingId is string && data.bookingId.size() <= 50 &&
                data.userId == request.auth.uid &&
                data.guestName is string && data.guestName.size() <= 100 &&
-               data.email is string &&
-               data.phone is string &&
-               data.guests is number && data.guests >= 1 &&
+               data.email is string && data.email.size() <= 100 &&
+               data.phone is string && data.phone.size() <= 20 &&
+               data.roomType is string &&
+               data.guests is number && data.guests >= 1 && data.guests <= 20 &&
                data.status in ['pending', 'accepted', 'rejected'] &&
                data.createdAt is timestamp;
       }
